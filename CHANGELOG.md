@@ -1,6 +1,6 @@
 # Geographic Services Changelog
 
-## [NEXT_RELEASE]
+## [NEXT_RELEASE] ## [0.2.0] - 2022-12-04 13:34
 
 ### Changed
 
