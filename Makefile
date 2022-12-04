@@ -15,3 +15,49 @@ clean:
 requirements:
 	@pip install -U pip
 	@pip install -r requirements.txt
+
+lint:
+	@flake8 service_area
+	@isort --check service_area
+
+isort-fix:
+	@isort service_area
+
+check-vulnerabilities:
+	@safety check -r requirements.txt
+
+start-deps: clean
+	@sudo docker-compose up -d
+
+run:
+	@python manage.py runserver
+
+test: clean
+	@pytest -m "not integration"
+	@make clean
+
+test-all: clean
+	@pytest -x
+	@make clean
+
+test-matching: clean
+	@pytest --pdb -k$(Q)
+	@make clean
+
+coverage: clean
+	@py.test service_area -m 'not integration' --cov service_area --cov-report xml --cov-report term --cov-report html
+
+coverage-all: clean
+	@py.test service_area --cov service_area --cov-report xml --cov-report term --cov-report html
+
+
+# Publish
+
+release-patch:
+	@bump2version patch
+
+release-minor:
+	@bump2version minor
+
+release-major:
+	@bump2version major
