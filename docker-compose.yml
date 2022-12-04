@@ -1,0 +1,17 @@
+version: '3.9'
+services:
+  mongo:
+    image: mongo:6.0
+    ports:
+      - 27017:27017
+    networks:
+      - service-area-network
+  redis:
+    image: redis:7.0
+    ports:
+      - 6379:6379
+    networks:
+      - service-area-network
+networks:
+  service-area-network:
+    driver: bridge
