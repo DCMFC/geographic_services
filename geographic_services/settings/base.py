@@ -3,7 +3,7 @@ from pathlib import Path
 import environ
 import mongoengine
 
-from service_area import __version__
+from geographic_services import __version__
 
 env = environ.Env()
 environ.Env.read_env()
@@ -21,7 +21,7 @@ SECRET_KEY = 'secret-test'
 
 MONGODB_URI = env(
     'MONGODB_URI',
-    default='mongodb://127.0.0.1:27017/service_area'
+    default='mongodb://127.0.0.1:27017/geographic_services'
 )
 mongoengine.connect(host=MONGODB_URI)
 
@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_mongoengine',
-    'service_area.provider',
+    'geographic_services.provider',
     'drf_spectacular',
 ]
 
@@ -61,14 +61,14 @@ REST_FRAMEWORK = {
 
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Service Area APIs',
+    'TITLE': 'Geographic Services APIs',
     'DESCRIPTION': 'Project to integrate providers and define their service areas',  # noqa
     'VERSION': __version__,
     'SERVE_INCLUDE_SCHEMA': False
 }
 
 
-ROOT_URLCONF = 'service_area.urls'
+ROOT_URLCONF = 'geographic_services.urls'
 
 TEMPLATES = [
     {
@@ -86,7 +86,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'service_area.wsgi.application'
+WSGI_APPLICATION = 'geographic_services.wsgi.application'
 
 AUTH_PASSWORD_VALIDATORS = [
     {

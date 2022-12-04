@@ -1,6 +1,12 @@
-# Service Area Changelog
+# Geographic Services Changelog
 
-## [NEXT_RELEASE] ## [0.1.0] - 2022-12-04 11:37
+## [NEXT_RELEASE]
+
+### Changed
+
+   - Project's name
+
+## [0.1.0] - 2022-12-04 11:37
 
 ### Added
 
