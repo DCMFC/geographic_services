@@ -4,7 +4,7 @@ import mongoengine
 import pytest
 from rest_framework.test import APIRequestFactory
 
-from service_area.provider.views import ProviderView
+from geographic_services.provider.views import ProviderView
 
 
 @pytest.fixture
@@ -15,7 +15,9 @@ def client():
 
 @pytest.fixture
 def db_setup():
-    db = mongoengine.connect(host='mongomock://127.0.0.1:27017/service_area')
+    db = mongoengine.connect(
+        host='mongomock://127.0.0.1:27017/geographic_services'
+    )
     yield db
     mongoengine.disconnect()
 

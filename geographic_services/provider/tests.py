@@ -2,7 +2,7 @@ import json
 
 import pytest
 
-from service_area.provider.views import ProviderView
+from geographic_services.provider.views import ProviderView
 
 
 def test_should_save_new_provider_successfully(

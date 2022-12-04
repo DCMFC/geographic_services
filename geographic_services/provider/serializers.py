@@ -1,6 +1,6 @@
 from rest_framework_mongoengine import serializers
 
-from service_area.provider.models import Provider
+from geographic_services.provider.models import Provider
 
 
 class ProviderSerializer(serializers.DocumentSerializer):

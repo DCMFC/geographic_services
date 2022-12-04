@@ -17,11 +17,11 @@ requirements:
 	@pip install -r requirements.txt
 
 lint:
-	@flake8 service_area
-	@isort --check service_area
+	@flake8 geographic_services
+	@isort --check geographic_services
 
 isort-fix:
-	@isort service_area
+	@isort geographic_services
 
 check-vulnerabilities:
 	@safety check -r requirements.txt
@@ -45,10 +45,10 @@ test-matching: clean
 	@make clean
 
 coverage: clean
-	@py.test service_area -m 'not integration' --cov service_area --cov-report xml --cov-report term --cov-report html
+	@py.test geographic_services -m 'not integration' --cov geographic_services --cov-report xml --cov-report term --cov-report html
 
 coverage-all: clean
-	@py.test service_area --cov service_area --cov-report xml --cov-report term --cov-report html
+	@py.test geographic_services --cov geographic_services --cov-report xml --cov-report term --cov-report html
 
 
 # Publish

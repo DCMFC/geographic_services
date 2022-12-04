@@ -1,7 +1,7 @@
 from rest_framework_mongoengine import viewsets
 
-from service_area.provider.models import Provider
-from service_area.provider.serializers import ProviderSerializer
+from geographic_services.provider.models import Provider
+from geographic_services.provider.serializers import ProviderSerializer
 
 
 class ProviderView(viewsets.ModelViewSet):
