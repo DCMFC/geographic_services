@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_mongoengine',
     'geographic_services.provider',
+    'geographic_services.service_area',
     'drf_spectacular',
 ]
 

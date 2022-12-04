@@ -1,6 +1,12 @@
 # Geographic Services Changelog
 
-## [NEXT_RELEASE] ## [0.2.0] - 2022-12-04 13:34
+## [NEXT_RELEASE]
+
+### Added
+
+   - Service area app module
+
+## [0.2.0] - 2022-12-04 13:34
 
 ### Changed
 
