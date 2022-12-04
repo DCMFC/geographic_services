@@ -5,3 +5,4 @@
 ### Added
 
    - Basic app setup
+   - Provider app module
