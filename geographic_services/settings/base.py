@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_mongoengine',
     'geographic_services.provider',
+    'geographic_services.service_area',
     'drf_spectacular',
 ]
 
@@ -66,6 +67,21 @@ SPECTACULAR_SETTINGS = {
     'VERSION': __version__,
     'SERVE_INCLUDE_SCHEMA': False
 }
+
+CACHE_TTL = 60 * 1
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_CACHE_ALIAS = 'default'
+PROVIDER_CACHE_TTL = 60 * 5
+SERVICE_AREA_CACHE_TTL = 60 * 5
 
 
 ROOT_URLCONF = 'geographic_services.urls'

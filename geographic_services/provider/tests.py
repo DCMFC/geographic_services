@@ -1,6 +1,7 @@
 import json
 
 import pytest
+from rest_framework import status
 
 from geographic_services.provider.views import ProviderView
 
@@ -16,7 +17,7 @@ def test_should_save_new_provider_successfully(
     )
     response = view(request)
 
-    assert response.status_code == 201
+    assert response.status_code == status.HTTP_201_CREATED
     del response.data['provider_id']
     assert response.data == provider_payload
 
@@ -39,7 +40,7 @@ def test_post_should_return_bad_request_when_payload_invalid(
         content_type='application/json'
     )
     response = view(request)
-    assert response.status_code == 400
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
 
 
 def test_put_should_update_provider_successfully(
@@ -56,7 +57,7 @@ def test_put_should_update_provider_successfully(
     )
     response = view(request, provider_id=provider_id)
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     assert response.data['email'] == 'new_email@example.com'
 
 
@@ -86,7 +87,7 @@ def test_put_should_return_bad_request_when_payload_is_invalid(
     )
     response = view(request, provider_id=provider_id)
 
-    assert response.status_code == 400
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
 
 
 def test_put_should_return_not_found(
@@ -100,7 +101,7 @@ def test_put_should_return_not_found(
     )
     response = view(request, provider_id='invalid-id')
 
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
 def test_patch_should_update_provider_successfully(
@@ -116,7 +117,7 @@ def test_patch_should_update_provider_successfully(
         content_type='application/json'
     )
     response = view(request, provider_id=provider_id)
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     assert response.data['email'] == 'new_email@example.com'
 
 
@@ -144,7 +145,7 @@ def test_patch_should_return_bad_request_when_payload_is_invalid(
     )
     response = view(request, provider_id=provider_id)
 
-    assert response.status_code == 400
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
 
 
 def test_patch_should_return_not_found(
@@ -158,7 +159,7 @@ def test_patch_should_return_not_found(
     )
     response = view(request, provider_id='invalid-id')
 
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
 def test_delete_should_remove_provider_successfully(
@@ -172,7 +173,7 @@ def test_delete_should_remove_provider_successfully(
         content_type='application/json'
     )
     response = view(request, provider_id=provider_id)
-    assert response.status_code == 204
+    assert response.status_code == status.HTTP_204_NO_CONTENT
 
 
 def test_delete_should_return_not_found(
@@ -184,7 +185,7 @@ def test_delete_should_return_not_found(
         content_type='application/json'
     )
     response = view(request, provider_id='invalid-id')
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
 def test_list_should_retrieve_all_providers_successfully(
@@ -196,7 +197,7 @@ def test_list_should_retrieve_all_providers_successfully(
         content_type='application/json'
     )
     response = view(request)
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     content = response.render().content
     content = json.loads(content)
     assert content['count'] == 15
@@ -211,7 +212,7 @@ def test_list_should_retrieve_empty_result_successfully(
         content_type='application/json'
     )
     response = view(request)
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     content = response.render().content
     content = json.loads(content)
     assert content['count'] == 0
@@ -228,7 +229,7 @@ def test_get_should_retrieve_provider_successfully(
         content_type='application/json'
     )
     response = view(request, provider_id=provider_id)
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     content = response.render().content
     content = json.loads(content)
     assert content == saved_provider
@@ -243,4 +244,4 @@ def test_get_should_return_not_found(
         content_type='application/json'
     )
     response = view(request, provider_id='invalid-id')
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND

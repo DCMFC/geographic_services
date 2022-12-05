@@ -5,6 +5,7 @@ import pytest
 from rest_framework.test import APIRequestFactory
 
 from geographic_services.provider.views import ProviderView
+from geographic_services.service_area.views import ServiceAreaView
 
 
 @pytest.fixture
@@ -34,6 +35,26 @@ def provider_payload():
 
 
 @pytest.fixture
+def service_area_payload():
+    return {
+        'name': 'New service area',
+        'price': '10.00',
+        'geographic_area': {
+            'type': 'Polygon',
+            'coordinates': [[
+                [121.00380420684814, 14.515791721361213],
+                [121.00728034973145, 14.513465165268554],
+                [121.00946903228758, 14.510307657168987],
+                [121.01315975189209, 14.512592700428515],
+                [121.00745201110838, 14.51811825299417],
+                [121.00380420684814, 14.515791721361213]
+            ]]
+        },
+        'provider_name': 'Provider 1'
+    }
+
+
+@pytest.fixture
 def saved_provider(client, provider_payload):
     view = ProviderView.as_view({'post': 'create'})
     request = client.post(
@@ -52,6 +73,30 @@ def saved_list_providers(client, provider_payload):
         request = client.post(
             '/v1/providers',
             json.dumps(provider_payload),
+            content_type='application/json'
+        )
+        view(request)
+
+
+@pytest.fixture
+def saved_service_area(client, service_area_payload):
+    view = ServiceAreaView.as_view({'post': 'create'})
+    request = client.post(
+        '/v1/service_areas',
+        json.dumps(service_area_payload),
+        content_type='application/json'
+    )
+    return view(request).data
+
+
+@pytest.fixture
+def saved_list_service_area(client, service_area_payload):
+    for i in range(15):
+        service_area_payload['name'] = f'Service Area {str(i)}'
+        view = ServiceAreaView.as_view({'post': 'create'})
+        request = client.post(
+            '/v1/service_areas',
+            json.dumps(service_area_payload),
             content_type='application/json'
         )
         view(request)
