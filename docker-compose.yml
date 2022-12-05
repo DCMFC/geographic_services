@@ -1,4 +1,4 @@
-version: '3.9'
+version: '3.10'
 services:
   mongo:
     image: mongo:6.0
@@ -10,6 +10,22 @@ services:
     image: redis:7.0
     ports:
       - 6379:6379
+    networks:
+      - service-area-network
+  api:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - 8000:8000
+    environment:
+      - DJANGO_SETTINGS_MODULE=geographic_services.settings.development
+      - MONGODB_URI=mongodb://mongo:27017/geographic_services
+      - REDIS_HOST=redis://redis:6379
+    depends_on:
+      - mongo
+      - redis
     networks:
       - service-area-network
 networks:
