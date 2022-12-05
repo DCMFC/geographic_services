@@ -260,10 +260,40 @@ def test_get_service_areas_intersections_should_return_service_area(
         {'get': 'get_service_areas_intersections'}, name='intersections'
     )
     request = client.get(
-        '/v1/service_areas/list_point_intersections?'
+        '/v1/service_areas/point_intersections?'
         'latitude=121.00380420684814&longitude=14.515791721361213',
         content_type='application/json'
     )
 
     response = view(request)
     assert response.status_code == status.HTTP_200_OK
+
+
+def test_get_intersections_return_bad_request_when_latitude_is_missing(
+    client
+):
+    view = ServiceAreaView.as_view(
+        {'get': 'get_service_areas_intersections'}, name='intersections'
+    )
+    request = client.get(
+        '/v1/service_areas/point_intersections?longitude=14.515791721361213',
+        content_type='application/json'
+    )
+
+    response = view(request)
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+
+
+def test_get_intersections_return_bad_request_when_longitude_is_missing(
+    client
+):
+    view = ServiceAreaView.as_view(
+        {'get': 'get_service_areas_intersections'}, name='intersections'
+    )
+    request = client.get(
+        '/v1/service_areas/point_intersections?latitude=14.515791721361213',
+        content_type='application/json'
+    )
+
+    response = view(request)
+    assert response.status_code == status.HTTP_400_BAD_REQUEST

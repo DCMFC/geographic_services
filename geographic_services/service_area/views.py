@@ -1,3 +1,6 @@
+from django.conf import settings
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import status
 from rest_framework.decorators import action
@@ -16,6 +19,10 @@ class ServiceAreaView(viewsets.ModelViewSet):
     def get_queryset(self):
         return ServiceArea.objects.all()
 
+    @method_decorator(cache_page(settings.SERVICE_AREA_CACHE_TTL))
+    def retrieve(self, *args, **kwargs):
+        return super().retrieve(*args, **kwargs)
+
     @extend_schema(parameters=[
         OpenApiParameter(
             name='latitude', location=OpenApiParameter.QUERY, required=True
@@ -24,9 +31,8 @@ class ServiceAreaView(viewsets.ModelViewSet):
             name='longitude', location=OpenApiParameter.QUERY, required=True
         )
     ])
-    @action(
-        methods=['get'], url_path='list_point_intersections', detail=False
-    )
+    @action(methods=['get'], url_path='point_intersections', detail=False)
+    @method_decorator(cache_page(settings.SERVICE_AREA_CACHE_TTL))
     def get_service_areas_intersections(self, request, **kwargs):
         latitude = request.query_params.get('latitude')
         longitude = request.query_params.get('longitude')
