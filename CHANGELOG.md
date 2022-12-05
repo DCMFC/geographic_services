@@ -5,6 +5,7 @@
 ### Added
 
    - Service area app module
+   - Endpoint to get service areas based on latitude and longitude
 
 ## [0.2.0] - 2022-12-04 13:34
 
