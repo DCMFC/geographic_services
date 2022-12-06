@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env('ALLOWED_HOSTS', default=['*'], cast=list)
 
 SECRET_KEY = 'secret-test'
 
@@ -68,11 +68,19 @@ SPECTACULAR_SETTINGS = {
     'SERVE_INCLUDE_SCHEMA': False
 }
 
-CACHE_TTL = 60 * 1
+CACHE_TTL = env(
+    'CACHE_TTL',
+    default=60 * 1,
+    cast=int
+)
+REDIS_HOST = env(
+    'REDIS_HOST',
+    default='redis://127.0.0.1:6379'
+)
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379',
+        'LOCATION': REDIS_HOST,
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }
@@ -80,8 +88,16 @@ CACHES = {
 }
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 SESSION_CACHE_ALIAS = 'default'
-PROVIDER_CACHE_TTL = 60 * 5
-SERVICE_AREA_CACHE_TTL = 60 * 5
+PROVIDER_CACHE_TTL = env(
+    'CACHE_TTL',
+    default=60 * 5,
+    cast=int
+)
+SERVICE_AREA_CACHE_TTL = env(
+    'CACHE_TTL',
+    default=60 * 5,
+    cast=int
+)
 
 
 ROOT_URLCONF = 'geographic_services.urls'
