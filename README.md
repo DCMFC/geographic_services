@@ -95,3 +95,10 @@
    * The APIs documentation is described here: `http://0.0.0.0:8000/docs/`
 
 <br/>
+
+## Deployed server
+
+   * http://ec2-3-23-98-175.us-east-2.compute.amazonaws.com/docs/
+   * https://hub.docker.com/r/dcmfc/geographic_service
+
+<br/>

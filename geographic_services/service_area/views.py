@@ -1,3 +1,6 @@
+import logging
+
+import pymongo
 from django.conf import settings
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
@@ -9,6 +12,8 @@ from rest_framework_mongoengine import viewsets
 
 from geographic_services.service_area.models import ServiceArea
 from geographic_services.service_area.serializers import ServiceAreaSerializer
+
+logger = logging.getLogger(__name__)
 
 
 class ServiceAreaView(viewsets.ModelViewSet):
@@ -34,6 +39,14 @@ class ServiceAreaView(viewsets.ModelViewSet):
     @action(methods=['get'], url_path='point_intersections', detail=False)
     @method_decorator(cache_page(settings.SERVICE_AREA_CACHE_TTL))
     def get_service_areas_intersections(self, request, **kwargs):
+        """Takes a point coordinates and list services areas intersections.
+
+        Parameters
+        ----------
+        latitude : str, required
+        longitude : str, required
+        """
+
         latitude = request.query_params.get('latitude')
         longitude = request.query_params.get('longitude')
 
@@ -43,8 +56,20 @@ class ServiceAreaView(viewsets.ModelViewSet):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        service_areas = ServiceArea.objects(
-            geographic_area__geo_intersects=[float(latitude), float(longitude)]
-        )
-        serializer = ServiceAreaSerializer(service_areas, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        try:
+            service_areas = ServiceArea.objects(
+                geographic_area__geo_intersects=[
+                    float(latitude), float(longitude)
+                ]
+            )
+            serializer = ServiceAreaSerializer(service_areas, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except pymongo.errors.OperationFailure:
+            logger.warning(
+                'Invalid coordinates. '
+                f'Latitude {latitude} Longitude {longitude}'
+            )
+            return Response(
+                data='Invalid coordinates.',
+                status=status.HTTP_400_BAD_REQUEST
+            )

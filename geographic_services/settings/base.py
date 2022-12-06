@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env('ALLOWED_HOSTS', default=['*'], cast=list)
 
 SECRET_KEY = 'secret-test'
 
@@ -68,7 +68,7 @@ SPECTACULAR_SETTINGS = {
     'SERVE_INCLUDE_SCHEMA': False
 }
 
-CACHE_TTL =  env(
+CACHE_TTL = env(
     'CACHE_TTL',
     default=60 * 1,
     cast=int

@@ -1,6 +1,12 @@
 # Geographic Services Changelog
 
-## [NEXT_RELEASE] ## [0.3.0] - 2022-12-05 14:31
+## [NEXT_RELEASE]
+
+### Fixed
+
+   - Error in get intersections endpoint when coordinates are invalid
+
+## [0.3.0] - 2022-12-05 14:31
 
 ### Added
 
