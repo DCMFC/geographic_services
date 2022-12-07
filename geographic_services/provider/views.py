@@ -8,6 +8,9 @@ from geographic_services.provider.serializers import ProviderSerializer
 
 
 class ProviderView(viewsets.ModelViewSet):
+    """
+    APIs endpoints to retrieve and modify providers.
+    """
 
     serializer_class = ProviderSerializer
     lookup_field = 'provider_id'
