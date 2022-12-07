@@ -17,6 +17,9 @@ logger = logging.getLogger(__name__)
 
 
 class ServiceAreaView(viewsets.ModelViewSet):
+    """
+    APIs endpoints to retrieve and modify service areas.
+    """
 
     serializer_class = ServiceAreaSerializer
     lookup_field = 'service_area_id'
@@ -43,8 +46,13 @@ class ServiceAreaView(viewsets.ModelViewSet):
 
         Parameters
         ----------
-        latitude : str, required
-        longitude : str, required
+        latitude: str, required
+        longitude: str, required
+
+        Returns
+        -------
+        ServiceArea:
+            List of services areas that intersects the given point
         """
 
         latitude = request.query_params.get('latitude')

@@ -16,6 +16,8 @@ def client():
 
 @pytest.fixture
 def db_setup():
+    """Create mocked database for the unit tests."""
+
     db = mongoengine.connect(
         host='mongomock://127.0.0.1:27017/geographic_services'
     )
